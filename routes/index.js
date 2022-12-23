@@ -28,12 +28,14 @@ router.post('/signupProcess', (req, res) => {
     const { name, email, password } = req.body;
     const salt = crypto.randomBytes(16).toString('hex');
     // Derive a key using the PBKDF2 algorithm
-    const key = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512');
+    const key = crypto.pbkdf2Sync(password, salt, 10000, 128, 'sha512');
 
     // Convert the key to a hex string
     const hashedPassword = key.toString('hex');
  
-    maria.query('INSERT INTO users (username, email, password, salt) VALUES (?, ?, ?, ?)',[name, email, hashedPassword, salt], (error, results) => {
+    maria.query('INSERT INTO users (username, email, password, salt) VALUES (?, ?, ?, ?)',
+    [name, email, hashedPassword, salt],
+    (error, results) => {
     if (error) {
         // 쿼리 실패시 에러 응답
         res.status(500).send(error);
