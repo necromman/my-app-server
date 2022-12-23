@@ -163,7 +163,6 @@ router.get('/delete', function(req, res) {
 function verifyToken(req, res, next) {
     // Get the JWT from the request header
     const token = req.headers.authorization;
-    console.log("req.headers.authorization : " + req.headers.authorization)
   
     // If the JWT is not provided, return an error
     if (!token) {
