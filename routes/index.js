@@ -2,8 +2,6 @@ var express = require('express');
 const crypto = require('crypto');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
-
-// require maria.js 
 const maria = require('../database/connect/maria');
 
 /* GET home page. */
@@ -29,7 +27,6 @@ router.post('/signupProcess', (req, res) => {
     const salt = crypto.randomBytes(16).toString('hex');
     // Derive a key using the PBKDF2 algorithm
     const key = crypto.pbkdf2Sync(password, salt, 10000, 128, 'sha512');
-
     // Convert the key to a hex string
     const hashedPassword = key.toString('hex');
  
@@ -52,33 +49,31 @@ router.post('/loginProcess', (req, res) => {
     // Get the username and password from the request body
     const { email, password } = req.body;
 
-    // Query the database for the user with the provided email
-    maria.query('SELECT * FROM users WHERE email = ?', [email])
-    .then((rows) => {
-        // If the user is not found, return an error
-        if (rows.length === 0) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+    maria.query('SELECT * FROM users WHERE email = ?',[email], function(err, rows, fields) {
+        if(err) {
+            console.log("err : " + err);
+            res.send(err);  // response send err
+        }      
+        // Get the salt and hashed password from the database
+        const { username, salt, password: hashedPassword } = rows[0];
+
+        // Derive a key using the PBKDF2 algorithm
+        const key = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512');
+
+        // Convert the key to a hex string
+        const enteredHashedPassword = key.toString('hex');
+
+        // Compare the entered hashed password with the hashed password
+        if (enteredHashedPassword !== hashedPassword) {
+        return res.status(401).json({ error: 'Invalid username or password' });
         }
-    })
-    // Get the salt and hashed password from the database
-    const { salt, password: hashedPassword } = rows[0];
 
-    // Derive a key using the PBKDF2 algorithm
-    const key = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512');
+        // If the password is correct, create a JWT
+        const token = jwt.sign({ username }, 'secret', { expiresIn: '1h' });
 
-    // Convert the key to a hex string
-    const enteredHashedPassword = key.toString('hex');
-
-    // Compare the entered hashed password with the hashed password
-    if (enteredHashedPassword !== hashedPassword) {
-    return res.status(401).json({ error: 'Invalid username or password' });
-    }
-
-    // If the password is correct, create a JWT
-    const token = jwt.sign({ username }, 'secret', { expiresIn: '1h' });
-
-    // Send the JWT in the response
-    res.json({ token });
+        // Send the JWT in the response
+        res.json({ token });
+    });
 });
 
 router.get('/users',verifyToken, (req, res) => {
@@ -167,7 +162,8 @@ router.get('/delete', function(req, res) {
 
 function verifyToken(req, res, next) {
     // Get the JWT from the request header
-    const token = req.headers['x-access-token'];
+    const token = req.headers.authorization;
+    console.log("req.headers.authorization : " + req.headers.authorization)
   
     // If the JWT is not provided, return an error
     if (!token) {

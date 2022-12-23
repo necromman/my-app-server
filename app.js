@@ -15,6 +15,7 @@ app.use('/',IndexRouter);
 app.use('/users',IndexRouter);
 app.use('/login',IndexRouter);
 app.use('/signupProcess',IndexRouter);
+app.use('/loginProcess',IndexRouter);
 
 
 // 서버를 시작합니다.
