@@ -6,7 +6,7 @@ const maria = require('../database/connect/maria');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: '인덱스랍니다' });
+  res.render('index', { title: '인덱스랍니다.' });
   //res.send('Hello World!');
 });
 
