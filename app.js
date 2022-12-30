@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const ejs = require('ejs');
+const cors = require("cors");
 require('dotenv').config();
 const IndexRouter = require('./routes/index');
 const PORT = process.env.PORT || 3000;
@@ -9,8 +10,11 @@ const maria = require('./database/connect/maria');
 maria.connect();
 
 const app = express();
+
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/',IndexRouter);
@@ -18,6 +22,8 @@ app.use('/users',IndexRouter);
 app.use('/login',IndexRouter);
 app.use('/signupProcess',IndexRouter);
 app.use('/loginProcess',IndexRouter);
+
+
 
 
 // 서버를 시작합니다.
