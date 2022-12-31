@@ -22,6 +22,7 @@ app.use('/users',IndexRouter);
 app.use('/login',IndexRouter);
 app.use('/signupProcess',IndexRouter);
 app.use('/loginProcess',IndexRouter);
+app.use('/getRequestParameter',IndexRouter);
 
 
 
