@@ -97,7 +97,7 @@ router.post('/getAllParameter', (req, res) => {
   console.log(req.body);
   const { xdaName } = req.body.data;
 
-  maria.query(`SELECT * FROM sysla03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+  maria.query(`SELECT * FROM sysla03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
     [xdaName],
     (err, rows, fields) => {
       if (err) {
@@ -109,7 +109,7 @@ router.post('/getAllParameter', (req, res) => {
           resAll.push(column.sColumnName)
         })
 
-        maria.query(`SELECT * FROM sysla04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+        maria.query(`SELECT * FROM sysla04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
           [xdaName],
           (err, rows, fields) => {
             if (err) {
