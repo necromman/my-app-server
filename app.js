@@ -17,12 +17,12 @@ app.set('views', './views');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/',IndexRouter);
-app.use('/users',IndexRouter);
-app.use('/login',IndexRouter);
-app.use('/signupProcess',IndexRouter);
-app.use('/loginProcess',IndexRouter);
-app.use('/getRequestParameter',IndexRouter);
+app.use('/api/',IndexRouter);
+app.use('/api/users',IndexRouter);
+app.use('/api/login',IndexRouter);
+app.use('/api/signupProcess',IndexRouter);
+app.use('/api/loginProcess',IndexRouter);
+app.use('/api/getRequestParameter',IndexRouter);
 
 
 
