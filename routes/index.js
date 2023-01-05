@@ -91,9 +91,36 @@ router.get('/users', verifyToken, (req, res) => {
 });
 
 
+router.post('/getSQueryText', (req, res) => {
+  // Proworks request parameter
+  console.log(req.body);
+  const { xdaName } = req.body.data;
+  maria.query(`
+  SELECT * FROM SYSLA02 a
+  JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b
+  ON a.sID = b.sID AND a.nRevision = b.max_revision
+  `,
+    [xdaName],
+    (err, rows, fields) => {
+      if (err) {
+        // 쿼리 실패시 에러 응답
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        // 쿼리 성공시 결과 응답
+        //res.render('index', { title: results[0].username });
+        res.send(rows);
+      }
+    });
+});
+
+
+
 router.post('/getAllParameter', (req, res) => {
   // Proworks All parameter
   let resAll = []
+  let requestParam = []
+  let responseParam = []
   console.log(req.body);
   const { xdaName } = req.body.data;
 
@@ -106,7 +133,8 @@ router.post('/getAllParameter', (req, res) => {
       } else {
         // res.send(rows);
         rows.forEach((column, index) => {
-          resAll.push(column.sColumnName)
+          requestParam.push(column.sColumnName)
+          //resAll.push(column.sColumnName)
         })
 
         maria.query(`SELECT * FROM sysla04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
@@ -117,9 +145,13 @@ router.post('/getAllParameter', (req, res) => {
               res.status(500).send(err);
             } else {
               rows.forEach((column, index) => {
-                resAll.push(column.sColumnName)
+                responseParam.push(column.sColumnName)
               })
-              resAll = resAll.filter((item, index) => resAll.indexOf(item) === index);
+              //resAll = resAll.filter((item, index) => resAll.indexOf(item) === index);
+              resAll.push({
+                "req":requestParam,
+                "res":responseParam
+              })
               res.send(resAll)
             }
           });

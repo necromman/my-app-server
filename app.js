@@ -23,6 +23,7 @@ app.use('/api/login',IndexRouter);
 app.use('/api/signupProcess',IndexRouter);
 app.use('/api/loginProcess',IndexRouter);
 app.use('/api/getRequestParameter',IndexRouter);
+app.use('/api/getSQueryText',IndexRouter);
 
 
 
