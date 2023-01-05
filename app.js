@@ -18,14 +18,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/',IndexRouter);
-app.use('/api/users',IndexRouter);
-app.use('/api/login',IndexRouter);
-app.use('/api/signupProcess',IndexRouter);
-app.use('/api/loginProcess',IndexRouter);
-app.use('/api/getRequestParameter',IndexRouter);
-app.use('/api/getSQueryText',IndexRouter);
-
-
 
 
 // 서버를 시작합니다.
