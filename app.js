@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 
 app.use('/api/',IndexRouter);
 
-
 // 서버를 시작합니다.
 app.listen(PORT, () => {
   console.log('Server listening on port ' + PORT || 3000);

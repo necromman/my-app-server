@@ -3,6 +3,7 @@ const crypto = require('crypto');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const maria = require('../database/connect/maria');
+const { verifyToken } = require('./middlewares');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -116,7 +117,7 @@ router.post('/getSQueryText', (req, res) => {
 
 
 
-router.post('/getAllParameter', (req, res) => {
+router.post('/getAllParameter',verifyToken, (req, res) => {
   // Proworks All parameter
   let resAll = []
   let requestParam = []
@@ -269,28 +270,6 @@ router.get('/delete', function (req, res) {
 });
 
 
-function verifyToken(req, res, next) {
-  // Get the JWT from the request header
-  const token = req.headers.authorization;
 
-  // If the JWT is not provided, return an error
-  if (!token) {
-    return res.redirect('/login');
-    //return res.status(401).json({ error: 'No token provided' });
-  }
-
-  // Verify the JWT
-  jwt.verify(token, 'secret', (error, decoded) => {
-    if (error) {
-      return res.redirect('/login');
-      //return res.status(401).json({ error: 'Invalid token' });
-    }
-
-    // If the JWT is valid, save the decoded token to the request object
-    req.decoded = decoded;
-    // Call the next middleware function
-    next();
-  });
-}
 
 module.exports = router;
