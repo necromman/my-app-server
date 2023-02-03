@@ -1,6 +1,5 @@
 /node_modules
 db/SYS**.sql
-db/쿼리.sql
 
 # dotenv environment variable files
 .env
