@@ -77,7 +77,7 @@ router.post('/loginProcess', (req, res) => {
   });
 });
 
-router.get('/users', verifyToken, (req, res) => {
+router.get('/users',  (req, res) => {
   // MySQL에서 사용자 목록을 가져옵니다.
   maria.query('SELECT * FROM users', (error, results) => {
     if (error) {
@@ -117,7 +117,7 @@ router.post('/getSQueryText', (req, res) => {
 
 
 
-router.post('/getAllParameter',verifyToken, (req, res) => {
+router.post('/getAllParameter', (req, res) => {
   // Proworks All parameter
   let resAll = []
   let requestParam = []
@@ -125,7 +125,7 @@ router.post('/getAllParameter',verifyToken, (req, res) => {
   console.log(req.body);
   const { xdaName } = req.body.data;
 
-  maria.query(`SELECT * FROM sysla03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+  maria.query(`SELECT * FROM SYSLA03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
     [xdaName],
     (err, rows, fields) => {
       if (err) {
@@ -138,7 +138,7 @@ router.post('/getAllParameter',verifyToken, (req, res) => {
           //resAll.push(column.sColumnName)
         })
 
-        maria.query(`SELECT * FROM sysla04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+        maria.query(`SELECT * FROM SYSLA04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
           [xdaName],
           (err, rows, fields) => {
             if (err) {
@@ -165,7 +165,7 @@ router.post('/getRequestParameter', (req, res) => {
   console.log(req.body);
   const { xdaName } = req.body.data;
 
-  maria.query(`SELECT * FROM sysla03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+  maria.query(`SELECT * FROM SYSLA03 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
     [xdaName],
     (err, rows, fields) => {
       if (err) {
@@ -185,7 +185,7 @@ router.post('/getResponseParameter', (req, res) => {
   console.log(req.body);
   const { xdaName } = req.body.data;
 
-  maria.query("SELECT * FROM sysla04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision",
+  maria.query("SELECT * FROM SYSLA04 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID like ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision",
     [xdaName],
     (err, rows, fields) => {
       if (err) {

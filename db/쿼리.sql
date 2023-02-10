@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 
 -- 테이블 myapp.sysla02 구조 내보내기
-CREATE TABLE IF NOT EXISTS `sysla02` (
+CREATE TABLE IF NOT EXISTS `SYSLA02` (
   `nProjectID` decimal(22,0) NOT NULL,
   `nModuleID` decimal(22,0) NOT NULL,
   `sID` varchar(255) CHARACTER SET euckr COLLATE euckr_bin NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `sysla02` (
 
 
 -- 테이블 myapp.sysla03 구조 내보내기
-CREATE TABLE IF NOT EXISTS `sysla03` (
+CREATE TABLE IF NOT EXISTS `SYSLA03` (
   `nProjectID` decimal(22,0) NOT NULL,
   `nModuleID` decimal(22,0) NOT NULL,
   `sID` varchar(255) CHARACTER SET euckr COLLATE euckr_bin NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `sysla03` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 테이블 myapp.sysla04 구조 내보내기
-CREATE TABLE IF NOT EXISTS `sysla04` (
+CREATE TABLE IF NOT EXISTS `SYSLA04` (
   `nProjectID` decimal(22,0) NOT NULL,
   `nModuleID` decimal(22,0) NOT NULL,
   `sID` varchar(255) CHARACTER SET euckr COLLATE euckr_bin NOT NULL,
