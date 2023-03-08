@@ -77,16 +77,16 @@ router.post('/loginProcess', (req, res) => {
   });
 });
 
-router.get('/users',  (req, res) => {
+router.get('/validation',  (req, res) => {
   // MySQL에서 사용자 목록을 가져옵니다.
-  maria.query('SELECT * FROM users', (error, results) => {
+  maria.query('SELECT 1 as result', (error, result) => {
     if (error) {
       // 쿼리 실패시 에러 응답
       res.status(500).send(error);
     } else {
       // 쿼리 성공시 결과 응답
       //res.render('index', { title: results[0].username });
-      res.send(results[0].username);
+      res.send(result[0]);
     }
   });
 });
