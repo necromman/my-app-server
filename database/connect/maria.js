@@ -7,7 +7,7 @@ const conn = maria.createConnection({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     insecureAuth: true,
-    charset: 'utf-8'
+    charset: 'utf8'
 });
 
 module.exports = conn;
