@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.use(cors());
-app.use(bodyParser.json({defaultCharset: 'euckr'}));
+app.use(bodyParser.json());
 
 app.use('/api/',IndexRouter);
 
