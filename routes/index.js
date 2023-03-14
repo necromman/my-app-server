@@ -97,7 +97,7 @@ router.post('/getSQueryText', (req, res) => {
   console.log(req.body);
   const { xdaName } = req.body.data;
   maria.query(`
-  SELECT *, CONVERT(CONVERT(sQuery USING BINARY) USING euckr) AS sQuery, CONVERT(CONVERT(sQueryText USING BINARY) USING euckr) AS sQueryText FROM SYSLA02 a
+  SELECT *, CONVERT(CONVERT(sQuery USING BINARY) USING utf8mb4) AS sQuery, CONVERT(CONVERT(sQueryText USING BINARY) USING utf8mb4) AS sQueryText FROM SYSLA02 a
   JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b
   ON a.sID = b.sID AND a.nRevision = b.max_revision
   `,
