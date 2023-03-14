@@ -111,6 +111,7 @@ router.post('/getSQueryText', (req, res) => {
         // 쿼리 성공시 결과 응답
         //res.render('index', { title: results[0].username });
         res.send(rows);
+        console.log(rows);
       }
     });
 });
