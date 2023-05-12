@@ -110,6 +110,7 @@ router.post('/getSQueryText', (req, res) => {
       } else {
         // 쿼리 성공시 결과 응답
         //res.render('index', { title: results[0].username });
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.send(rows);
         console.log(rows);
       }
