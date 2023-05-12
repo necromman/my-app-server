@@ -4,6 +4,7 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const maria = require('../database/connect/maria');
 const { verifyToken } = require('./middlewares');
+var iconv = require('iconv-lite');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
