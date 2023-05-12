@@ -7,8 +7,7 @@ require('dotenv').config();
 const IndexRouter = require('./routes/index');
 const PORT = process.env.PORT || 3000;
 const maria = require('./database/connect/maria');
-//maria.connect();
-maria.getConnection()
+maria.connect();
 
 const app = express();
 

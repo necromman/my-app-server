@@ -4,7 +4,6 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const maria = require('../database/connect/maria');
 const { verifyToken } = require('./middlewares');
-var iconv = require('iconv-lite');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -111,22 +110,8 @@ router.post('/getSQueryText', (req, res) => {
       } else {
         // 쿼리 성공시 결과 응답
         //res.render('index', { title: results[0].username });
-        // Convert each row to UTF-8
-        var convertedRows = rows.map(row => {
-          var convertedRow = {};
-          for (var field in row) {
-            if (typeof row[field] === 'string') {
-              convertedRow[field] = iconv.decode(Buffer.from(row[field], 'binary'), 'EUC-KR');
-            } else {
-              convertedRow[field] = row[field];
-            }
-          }
-          return convertedRow;
-        });
-
-        res.setHeader('Content-Type', 'application/json; charset=utf-8'); // 추가된 코드
-        res.send(convertedRows);
-        console.log(convertedRows);
+        res.send(rows);
+        console.log(rows);
       }
     });
 });
