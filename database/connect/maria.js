@@ -7,8 +7,7 @@ const pool = maria.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     insecureAuth: true,
-    connectionLimit: 5,
-    charset: 'EUCKR_KOREAN_CI' // charset for EUC-KR in MariaDB
+    connectionLimit: 5
 });
 
 pool.getConnection()
