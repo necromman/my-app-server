@@ -124,6 +124,7 @@ router.post('/getSQueryText', (req, res) => {
           return convertedRow;
         });
 
+        res.setHeader('Content-Type', 'application/json; charset=euc-kr'); // 추가된 코드
         res.send(convertedRows);
         console.log(convertedRows);
       }
