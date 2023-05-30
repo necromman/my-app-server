@@ -181,6 +181,26 @@ router.post('/getRequestParameter', (req, res) => {
     });
 });
 
+router.post('/getXdadetails', (req, res) => {
+  // Proworks request parameter
+  console.log(req.body);
+  const { xdaName } = req.body.data;
+
+  maria.query(`SELECT * FROM SYSLA01 a JOIN (SELECT sID, MAX(nRevision) AS max_revision FROM SYSLA02 WHERE sID = ? GROUP BY sID) b ON a.sID = b.sID AND a.nRevision = b.max_revision`,
+    [xdaName],
+    (err, rows, fields) => {
+      if (err) {
+        // 쿼리 실패시 에러 응답
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        // 쿼리 성공시 결과 응답
+        //res.render('index', { title: results[0].username });
+        res.send(rows);
+      }
+    });
+});
+
 router.post('/getResponseParameter', (req, res) => {
   // Proworks request parameter
   console.log(req.body);
