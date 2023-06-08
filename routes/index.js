@@ -221,6 +221,42 @@ router.post('/getResponseParameter', (req, res) => {
     });
 });
 
+router.get('/getFolderTree', function (req, res) {
+  maria.query('SELECT * FROM SYSLA05', function (err, rows, fields) {
+    if (!err) {
+
+      let map = {};
+      let treeData = {};
+
+      for(let i = 0; i < rows.length; i++) {
+        let data = rows[i];
+        if (!data.sFolderName) continue;  // Skip rows without sFolderName
+        data.name = data.sFolderName; // Change sFolderName to name
+        delete data.sFolderName; // Remove sFolderName
+        map[data.nFolderID] = i; 
+        rows[i].children = []; 
+      }
+
+      for(let i = 0; i < rows.length; i++) {
+        let data = rows[i];
+        if (!data.name) continue;  // Skip rows without name
+        if(data.nUpperID === 0) {
+          treeData = data; 
+        } else {
+          rows[map[data.nUpperID]].children.push(data);
+        }
+      }
+
+      console.log(treeData);
+      res.send(treeData) // responses send rows
+
+    } else {
+      console.log("err : " + err);
+      res.send(err);  // response send err
+    }
+  });
+});
+
 router.get('/create', function (req, res) {
   maria.query('CREATE TABLE DEPARTMENT ('
     + 'DEPART_CODE INT(11) NOT NULL,'
