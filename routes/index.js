@@ -234,8 +234,29 @@ router.post('/getFolderTreeList', (req, res) => {
         console.log(err);
         res.status(500).send(err);
       } else {
-        // 쿼리 성공시 결과 응답
-        //res.render('index', { title: results[0].username });
+
+        let map = {};
+        let treeData = {};
+
+        for(let i = 0; i < rows.length; i++) {
+          let data = rows[i];
+          if (!data.sFolderName) continue;  // Skip rows without sFolderName
+          data.name = data.sFolderName; // Change sFolderName to name
+          delete data.sFolderName; // Remove sFolderName
+          map[data.nFolderID] = i; 
+          rows[i].children = []; 
+        }
+
+        for(let i = 0; i < rows.length; i++) {
+          let data = rows[i];
+          if (!data.name) continue;  // Skip rows without name
+          if(data.nUpperID === 0) {
+            treeData = data; 
+          } else {
+            rows[map[data.nUpperID]].children.push(data);
+          }
+        }
+        
         res.send(rows);
       }
     });
