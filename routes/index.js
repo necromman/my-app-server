@@ -221,6 +221,28 @@ router.post('/getResponseParameter', (req, res) => {
     });
 });
 
+router.post('/getFolderTreeList', (req, res) => {
+  // Proworks request parameter
+  console.log(req.body);
+  const { pathName } = req.body.data;
+
+  maria.query("SELECT sID, MAX(nRevision) AS max_revision, nReturnType, sXDAName, sUpdateDate, sFileName FROM SYSLA01 WHERE sID like concat(?, '%') GROUP BY sID ORDER BY sID",
+    [pathName],
+    (err, rows, fields) => {
+      if (err) {
+        // 쿼리 실패시 에러 응답
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        // 쿼리 성공시 결과 응답
+        //res.render('index', { title: results[0].username });
+        res.send(rows);
+      }
+    });
+});
+
+//SELECT sID, MAX(nRevision) AS max_revision, nReturnType, sXDAName, sUpdateDate, sFileName FROM SYSLA01 WHERE sID like 'kitech.apr.xda%' GROUP BY sID ORDER BY sID
+
 router.get('/getFolderTree', function (req, res) {
   maria.query('SELECT * FROM SYSLA05', function (err, rows, fields) {
     if (!err) {
